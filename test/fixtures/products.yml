@@ -4,12 +4,14 @@ one:
   name: MyString
   price: 9.99
   stock: 1
-  category: one
+  type: 
+  flavour: MyString
   truck: one
 
 two:
   name: MyString
   price: 9.99
   stock: 1
-  category: two
+  type: 
+  flavour: MyString
   truck: two

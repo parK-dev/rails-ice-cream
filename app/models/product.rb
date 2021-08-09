@@ -1,10 +1,9 @@
-# frozen_string_literal: true
-
 class Product < ApplicationRecord
-  belongs_to :category
   belongs_to :truck
 
-  validates :name, :price, :stock, presence: true
-  validates :name, length: { minimum: 1, maximum: 25, message: 'Between 1 and 25 characters' }
-  validates :price, numericality: { greater_than: 0 }
+  validates :name, :price, :stock, :type, presence: true
+  validates :name, length: { minimum: 1, maximum: 25, message: "character length: 1-25" }
+  validates :type, inclusion: { in: %w(ShavedIce IceCream SnackBar), 
+                                message: "type must be of 'ShavedIce'
+                                          'IceCream' or 'SnackBar'" }
 end

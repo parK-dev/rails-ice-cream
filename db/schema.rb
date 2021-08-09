@@ -10,77 +10,54 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_06_141434) do
+ActiveRecord::Schema.define(version: 2021_08_09_113518) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "categories", force: :cascade do |t|
-    t.string "name"
-    t.bigint "type_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["type_id"], name: "index_categories_on_type_id"
-  end
-
-  create_table "customers", force: :cascade do |t|
-    t.string "name"
-    t.string "email"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
   create_table "line_items", force: :cascade do |t|
-    t.bigint "shopping_cart_id", null: false
+    t.bigint "order_id", null: false
     t.bigint "product_id", null: false
+    t.integer "quantity", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["order_id"], name: "index_line_items_on_order_id"
     t.index ["product_id"], name: "index_line_items_on_product_id"
-    t.index ["shopping_cart_id"], name: "index_line_items_on_shopping_cart_id"
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.decimal "sales_tax", precision: 5, scale: 2, null: false
+    t.decimal "cost_before_tax", precision: 5, scale: 2, null: false
+    t.decimal "cost_after_tax", precision: 5, scale: 2, null: false
+    t.bigint "truck_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["truck_id"], name: "index_orders_on_truck_id"
   end
 
   create_table "products", force: :cascade do |t|
-    t.string "name"
-    t.decimal "price"
-    t.integer "stock"
-    t.bigint "category_id", null: false
+    t.string "name", null: false
+    t.decimal "price", precision: 5, scale: 2, null: false
+    t.integer "stock", null: false
+    t.string "type", null: false
+    t.string "flavour"
     t.bigint "truck_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["category_id"], name: "index_products_on_category_id"
     t.index ["truck_id"], name: "index_products_on_truck_id"
   end
 
-  create_table "shopping_carts", force: :cascade do |t|
-    t.decimal "cost"
-    t.decimal "sales_tax"
-    t.bigint "truck_id", null: false
-    t.bigint "customer_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["customer_id"], name: "index_shopping_carts_on_customer_id"
-    t.index ["truck_id"], name: "index_shopping_carts_on_truck_id"
-  end
-
   create_table "trucks", force: :cascade do |t|
-    t.string "name"
-    t.string "owner"
-    t.string "city"
+    t.string "name", null: false
+    t.string "owner", null: false
+    t.string "city", null: false
+    t.decimal "tax_rate", precision: 5, scale: 2, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "types", force: :cascade do |t|
-    t.string "name"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  add_foreign_key "categories", "types"
+  add_foreign_key "line_items", "orders"
   add_foreign_key "line_items", "products"
-  add_foreign_key "line_items", "shopping_carts"
-  add_foreign_key "products", "categories"
+  add_foreign_key "orders", "trucks"
   add_foreign_key "products", "trucks"
-  add_foreign_key "shopping_carts", "customers"
-  add_foreign_key "shopping_carts", "trucks"
 end

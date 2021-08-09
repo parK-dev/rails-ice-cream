@@ -1,6 +1,6 @@
 require "test_helper"
 
-class TypeTest < ActiveSupport::TestCase
+class TrucksControllerTest < ActionDispatch::IntegrationTest
   # test "the truth" do
   #   assert true
   # end

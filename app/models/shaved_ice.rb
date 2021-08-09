@@ -1,0 +1,3 @@
+class ShavedIce < Product
+
+end

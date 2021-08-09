@@ -1,0 +1,3 @@
+class IceCream < Product
+
+end
