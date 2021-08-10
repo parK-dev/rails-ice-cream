@@ -8,7 +8,7 @@
 
 truck = Truck.new({name: 'truck', owner: 'park', city: 'montreal', tax_rate: 1.15})
 truck.save ? (puts "#{truck.name} was created successfully.") : (puts "#{truck.name} could not save.")
-product = Product.new({name: 'test', price: 10.0, stock: 10, type:'IceCream', flavour: 'Chocolate', truck_id: Truck.first.id})
+product = Product.new({name: 'Shaved Ice', price: 10.0, stock: 99, type:'IceCream', flavour: 'Chocolate', truck_id: Truck.first.id})
 product.save ? (puts "#{product.name} was created successfully.") : (puts "#{product.name} could not save.")
 
 line_items = [LineItem.new(quantity: 1, product_id: product.id, order_id: 0),
